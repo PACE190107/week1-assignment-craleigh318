@@ -135,12 +135,20 @@ public class EvaluationService {
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
 		int score = 0;
-		
-		return 0;
+		String stringLC = string.toLowerCase();
+		char[] stringCA = stringLC.toCharArray();
+		for (char c : stringCA) {
+			score += getScrabbleLetterValue(c);
+		}
+		return score;
 	}
 	
 	//private final scrabble
 	private HashMap<Character, Integer> scrabbleLetterValueMap = null;
+	
+	private int getScrabbleLetterValue(char letter) {
+		return getScrabbleLetterValueMap().get(letter);
+	}
 	
 	private Map<Character, Integer> getScrabbleLetterValueMap() {
 		if (scrabbleLetterValueMap == null) {
