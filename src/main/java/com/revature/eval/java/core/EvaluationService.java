@@ -31,7 +31,12 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String[] splitPhrase = phrase.split(" ");
+		String acronym = "";
+		for (String word : splitPhrase) {
+			acronym += word.charAt(0);
+		}
+		return acronym;
 	}
 
 	/**
@@ -85,19 +90,30 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			return sidesOneAndTwoEqual() && sidesOneAndThreeEqual();
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			return sidesOneAndTwoEqual() || sidesOneAndThreeEqual() || sidesTwoAndThreeEqual();
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			return !isIsosceles();
 		}
-
+		
+		private boolean sidesOneAndTwoEqual() {
+			return getSideOne() == getSideTwo();
+		}
+		
+		private boolean sidesOneAndThreeEqual() {
+			return getSideOne() == getSideThree();
+		}
+		
+		private boolean sidesTwoAndThreeEqual() {
+			return getSideTwo() == getSideThree();
+		}
 	}
 
 	/**
