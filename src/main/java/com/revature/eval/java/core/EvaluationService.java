@@ -216,7 +216,18 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
+		String localNumber = removeCountryCode(string);
+		localNumber.replaceAll("\\D", "");
 		return null;
+	}
+	
+	private char usCode = '1';
+	
+	private String removeCountryCode(String phoneNumber) {
+		if (phoneNumber.charAt(0) == usCode) {
+			return phoneNumber.substring(1);
+		}
+		return phoneNumber;
 	}
 
 	/**
