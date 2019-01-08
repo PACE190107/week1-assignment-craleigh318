@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -133,7 +134,45 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
+		int score = 0;
+		
 		return 0;
+	}
+	
+	//private final scrabble
+	private HashMap<Character, Integer> scrabbleLetterValueMap = null;
+	
+	private Map<Character, Integer> getScrabbleLetterValueMap() {
+		if (scrabbleLetterValueMap == null) {
+			scrabbleLetterValueMap = new HashMap<Character, Integer>();
+			scrabbleLetterValueMap.put('a', 1);
+			scrabbleLetterValueMap.put('b', 3);
+			scrabbleLetterValueMap.put('c', 1);
+			scrabbleLetterValueMap.put('d', 2);
+			scrabbleLetterValueMap.put('e', 1);
+			scrabbleLetterValueMap.put('f', 4);
+			scrabbleLetterValueMap.put('g', 2);
+			scrabbleLetterValueMap.put('h', 4);
+			scrabbleLetterValueMap.put('i', 4);
+			scrabbleLetterValueMap.put('j', 8);
+			scrabbleLetterValueMap.put('k', 5);
+			scrabbleLetterValueMap.put('l', 1);
+			scrabbleLetterValueMap.put('m', 3);
+			scrabbleLetterValueMap.put('n', 1);
+			scrabbleLetterValueMap.put('o', 1);
+			scrabbleLetterValueMap.put('p', 3);
+			scrabbleLetterValueMap.put('q', 10);
+			scrabbleLetterValueMap.put('r', 1);
+			scrabbleLetterValueMap.put('s', 1);
+			scrabbleLetterValueMap.put('t', 1);
+			scrabbleLetterValueMap.put('u', 1);
+			scrabbleLetterValueMap.put('v', 4);
+			scrabbleLetterValueMap.put('w', 4);
+			scrabbleLetterValueMap.put('x', 8);
+			scrabbleLetterValueMap.put('y', 4);
+			scrabbleLetterValueMap.put('z', 10);
+		}
+		return scrabbleLetterValueMap;
 	}
 
 	/**
