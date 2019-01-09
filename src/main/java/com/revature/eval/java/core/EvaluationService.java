@@ -414,6 +414,7 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
+		int numDigits = (int) Math.floor(Math.log10(input));
 		return false;
 	}
 
