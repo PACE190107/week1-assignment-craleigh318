@@ -296,12 +296,14 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
-	static class BinarySearch<T> {
+	static class BinarySearch<T extends Comparable<T>> {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			int start = 0;
+			int end = getSortedList().size() - 1;
+			int index = indexOf(t, start, end);
+			return index;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -316,7 +318,35 @@ public class EvaluationService {
 		public void setSortedList(List<T> sortedList) {
 			this.sortedList = sortedList;
 		}
-
+		
+		private int indexOf(T t, int start, int end) {
+			List<T> sl = getSortedList();
+			// If element not found.
+			if (start > end) {
+				return -1;
+			}
+			int middle = (start + end) / 2;
+			T middleVal = sl.get(middle);
+			int comparison = t.compareTo(middleVal);
+			// If t is middle.
+			if (comparison == 0) {
+				return middle;
+			}
+			int newStart;
+			int newEnd;
+			// If t is less than middle.
+			if (comparison < 0) {
+				newStart = start;
+				newEnd = middle - 1;
+			}
+			// If t is greater than middle.
+			else {
+				newStart = middle + 1;
+				newEnd = end;
+			}
+			int index = indexOf(t, newStart, newEnd);
+			return index;
+		}
 	}
 
 	/**
