@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -414,8 +416,30 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
-		int numDigits = (int) Math.floor(Math.log10(input));
-		return false;
+		int[] digits = getDigits(input);
+		int sum = getArmstrongSum(digits);
+		boolean armstrongNumber = (input == sum);
+		return armstrongNumber;
+	}
+	
+	private int[] getDigits(int number) {
+		int numDigits = ((int) Math.floor(Math.log10(number))) + 1;
+		int[] digits = new int[numDigits];
+		for (int i = numDigits; i >= 0; --i) {
+			int tenPow = (int) Math.pow(10.0, numDigits);
+			int digit = number % tenPow;
+			digits[i] = digit;
+		}
+		return digits;
+	}
+	
+	private int getArmstrongSum(int[] digits) {
+		int numDigits = digits.length;
+		int sum = 0;
+		for (int i : digits) {
+			sum += ((int) Math.pow(i, numDigits));
+		}
+		return sum;
 	}
 
 	/**
