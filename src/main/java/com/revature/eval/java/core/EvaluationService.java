@@ -368,8 +368,34 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String newString = "";
+		String[] splitString = string.split(" ");
+		for (String s : splitString) {
+			s = moveFirstConsonant(s);
+			s = addAy(s);
+			newString += s;
+		}
+		return newString;
 	}
+	
+	private String moveFirstConsonant(String word) {
+		String firstLetter = word.substring(0, 0);
+		boolean isConsonant = firstLetter.matches(CONSONANTS);
+		if (isConsonant) {
+			int endIndex = word.length() - 1;
+			String newWord = word.substring(1, endIndex);
+			newWord += firstLetter;
+			return newWord;
+		}
+		return word;
+	}
+	
+	private String addAy(String word) {
+		return word + PIG_LATIN_SOUND;
+	}
+	
+	private static final String CONSONANTS = "[bcdfghjklmnpqrstvwxyz]";
+	private static final String PIG_LATIN_SOUND = "ay";
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
