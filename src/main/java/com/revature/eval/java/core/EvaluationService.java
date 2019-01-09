@@ -143,7 +143,8 @@ public class EvaluationService {
 		return score;
 	}
 	
-	//private final scrabble
+	private static final int NUM_LETTERS_IN_ALPHABET = 26;
+	
 	private HashMap<Character, Integer> scrabbleLetterValueMap = null;
 	
 	private int getScrabbleLetterValue(char letter) {
@@ -152,7 +153,8 @@ public class EvaluationService {
 	
 	private Map<Character, Integer> getScrabbleLetterValueMap() {
 		if (scrabbleLetterValueMap == null) {
-			scrabbleLetterValueMap = new HashMap<Character, Integer>();
+			
+			scrabbleLetterValueMap = new HashMap<>(NUM_LETTERS_IN_ALPHABET);
 			scrabbleLetterValueMap.put('a', 1);
 			scrabbleLetterValueMap.put('b', 3);
 			scrabbleLetterValueMap.put('c', 1);
@@ -217,8 +219,9 @@ public class EvaluationService {
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
 		String localNumber = removeCountryCode(string);
+		//Remove non-digits.
 		localNumber.replaceAll("\\D", "");
-		return null;
+		return localNumber;
 	}
 	
 	private char usCode = '1';
@@ -241,7 +244,21 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String[] words = string.split(" ");
+		HashMap<String, Integer> wordCount = new HashMap<>();
+		for (String w : words) {
+			addWordToCount(w, wordCount);
+		}
+		return wordCount;
+	}
+	
+	private void addWordToCount(String word, Map<String, Integer> count) {
+		Integer val = count.get(word);
+		if (val == null ) {
+			val = 0;
+		}
+		++val;
+		count.put(word, val);
 	}
 
 	/**
