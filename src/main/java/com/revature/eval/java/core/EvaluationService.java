@@ -502,7 +502,21 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			int stringLength = string.length();
+			char[] ciphertext = new char[stringLength];
+			for (int i = 0; i < stringLength; ++i) {
+				char c= string.charAt(i);
+				boolean isCapital = (c <= 'Z');
+				char shiftedChar = (char)(c + key);
+				if (isCapital) {
+					shiftedChar %= 'Z';
+				} else {
+					shiftedChar %= 'z';
+				}
+				ciphertext[i] = shiftedChar;
+			}
+			String newString = new String(ciphertext);
+			return newString;
 		}
 
 	}
