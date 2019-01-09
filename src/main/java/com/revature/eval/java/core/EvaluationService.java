@@ -2,7 +2,6 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -454,8 +453,18 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> primeFactors = new ArrayList<>();
+		long end = (long) Math.floor(Math.sqrt(l));
+		long prod = l;
+		for (long fact = 2; fact <= end; ++fact) {
+			while ((prod % fact) == 0) {
+				primeFactors.add(fact);
+				prod /= fact;
+			}
+		}
+		return primeFactors;
 	}
+	
 
 	/**
 	 * 11. Create an implementation of the rotational cipher, also sometimes called
