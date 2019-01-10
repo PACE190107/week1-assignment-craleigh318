@@ -557,8 +557,6 @@ public class EvaluationService {
 		return nthPrime;
 	}
 	
-	
-
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
 	 * system created in the Middle East.
@@ -584,6 +582,8 @@ public class EvaluationService {
 	 *
 	 */
 	static class AtbashCipher {
+		
+		private static final float ALPHABET_MIDDLE = ((float)'Z' - (float)'A');
 
 		/**
 		 * Question 13
@@ -593,7 +593,7 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			return code(string);
 		}
 
 		/**
@@ -604,10 +604,23 @@ public class EvaluationService {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			return code(string);
+		}
+		
+		private static String code(String string) {
+			String newString = "";
+			char[] stringCA = string.toCharArray();
+			for (char c : stringCA) {
+				float offset = ((float)c - ALPHABET_MIDDLE);
+				offset *= -1;
+				offset += ALPHABET_MIDDLE;
+				char newChar = (char)offset;
+				newString += newChar;
+			}
+			return newString;
 		}
 	}
-
+	
 	/**
 	 * 15. The ISBN-10 verification process is used to validate book identification
 	 * numbers. These normally contain dashes and look like: 3-598-21508-8
