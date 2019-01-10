@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class EvaluationService {
 	
@@ -645,7 +646,22 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		int sum = 0;
+		char[] stringCA = string.toCharArray();
+		for (int i = 0; i < (ISBN_LENTH - 1); ++i) {
+			char nextChar = stringCA[i];
+			int nextInt = charToInt(nextChar);
+			sum += (nextInt * (ISBN_LENTH - i));
+		}
+		int checksum = charToInt(stringCA[ISBN_LENTH - 1]);
+		boolean valid = (sum == checksum);
+		return valid;
+	}
+	
+	private int ISBN_LENTH = 10;
+	
+	private int charToInt(char c) {
+		return (int)(c - '0');
 	}
 
 	/**
