@@ -2,11 +2,14 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EvaluationService {
+	
+	private final int FIRST_PRIME = 2;
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -456,7 +459,7 @@ public class EvaluationService {
 		List<Long> primeFactors = new ArrayList<>();
 		long end = (long) Math.floor(Math.sqrt(l));
 		long prod = l;
-		for (long fact = 2; fact <= end; ++fact) {
+		for (long fact = FIRST_PRIME; fact <= end; ++fact) {
 			while ((prod % fact) == 0) {
 				primeFactors.add(fact);
 				prod /= fact;
@@ -535,8 +538,26 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		ArrayList<Integer> primes = new ArrayList<>(Arrays.asList(FIRST_PRIME));
+		for (int j = (FIRST_PRIME + 1); primes.size() < i; ++j) {
+			boolean divisible = false;
+			for (int thisPrime : primes) {
+				// If j is divisible.
+				if ((j % thisPrime) == 0) {
+					divisible = true;
+					break;
+				}
+			}
+			if (!divisible) {
+				primes.add(j);
+			}
+		}
+		int last = primes.size() - 1;
+		int nthPrime = primes.get(last);
+		return nthPrime;
 	}
+	
+	
 
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
