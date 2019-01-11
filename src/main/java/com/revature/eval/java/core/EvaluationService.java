@@ -1,5 +1,6 @@
 package com.revature.eval.java.core;
 
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -715,8 +716,11 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		Temporal gsDate = given.plus(GIGASECOND, ChronoUnit.SECONDS);
+		return gsDate;
 	}
+	
+	private static final long GIGASECOND = 1000000000;
 
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
