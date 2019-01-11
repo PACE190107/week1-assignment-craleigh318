@@ -3,10 +3,12 @@ package com.revature.eval.java.core;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class EvaluationService {
 	
@@ -679,7 +681,28 @@ public class EvaluationService {
 	 */
 	public boolean isPangram(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		String lowercaseString = string.toLowerCase();
+		Map<Character, Boolean> lettersUsed = createLettersUsedMap();
+		char[] lowercaseStringCA = lowercaseString.toCharArray();
+		// Iterating through string.
+		for (char c : lowercaseStringCA) {
+			lettersUsed.replace(c, true);
+		}
+		Collection<Boolean> mapValues = lettersUsed.values();
+		for (Boolean used : mapValues) {
+			if (used == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private Map<Character, Boolean> createLettersUsedMap() {
+		TreeMap<Character, Boolean> lettersUsed = new TreeMap<>();
+		for (Character c = 'a'; c <= 'z'; ++c) {
+			lettersUsed.put(c, false);
+		}
+		return lettersUsed;
 	}
 
 	/**
