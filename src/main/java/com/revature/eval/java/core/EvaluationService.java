@@ -1,5 +1,6 @@
 package com.revature.eval.java.core;
 
+import java.awt.image.ReplicateScaleFilter;
 import java.time.temporal.*;
 import java.util.*;
 
@@ -220,7 +221,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		String localNumber = removeCountryCode(string);
 		//Remove non-digits.
-		localNumber.replaceAll("\\D", "");
+		localNumber = removeNonNumbers(localNumber);
 		return localNumber;
 	}
 	
@@ -656,7 +657,7 @@ public class EvaluationService {
 	private int ISBN_LENTH = 10;
 	
 	private int charToInt(char c) {
-		return (int)(c - '0');
+		return Character.getNumericValue(c);
 	}
 
 	/**
@@ -794,7 +795,34 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		int luhnSum = luhnSum(string);
+		boolean divisibleByTen = ((luhnSum % 10) == 0);
+		return divisibleByTen;
+	}
+	
+	private int doubleLuhnDigit(int digit) {
+		int doubledDigit = digit * 2;
+		doubledDigit %= 10;
+		return doubledDigit;
+	}
+	
+	private int luhnSum(String string) {
+		ArrayList<Integer> adds = new ArrayList<>();
+		String numericString = removeNonNumbers(string);
+		for (int i = 0; i < numericString.length(); ++i) {
+			int digit = charToInt(numericString.charAt(i));
+			boolean evenIndex = ((i % 2) != 0);
+			if (evenIndex) {
+				digit = doubleLuhnDigit(digit);
+			}
+			adds.add(digit);
+		}
+		// Get sum.
+		int sum = 0;
+		for (int i : adds) {
+			sum += i;
+		}
+		return sum;
 	}
 
 	/**
@@ -829,4 +857,7 @@ public class EvaluationService {
 		return 0;
 	}
 
+	private String removeNonNumbers(String string) {
+		return string.replaceAll("[^\\d]", "");
+	}
 }
