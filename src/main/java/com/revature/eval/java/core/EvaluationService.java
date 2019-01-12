@@ -1,15 +1,7 @@
 package com.revature.eval.java.core;
 
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.time.temporal.*;
+import java.util.*;
 
 public class EvaluationService {
 	
@@ -737,7 +729,31 @@ public class EvaluationService {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int sum = 0;
+		Set<Integer> multiples = multiplesOfSet(i, set);
+		for (int m : multiples) {
+			sum += m;
+		}
+		return sum;
+	}
+	
+	private Set<Integer> multiplesOfSet(int i, int[] set) {
+		HashSet<Integer> multiples = new HashSet<>();
+		for (int j = 0; j < i; ++j) {
+			if (isDivisiblebySet(j, set)) {
+				multiples.add(j);
+			}
+		}
+		return multiples;
+	}
+	
+	private boolean isDivisiblebySet(int dividend, int[] divisorSet) {
+		for (int divisor : divisorSet) {
+			if ((dividend % divisor) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
