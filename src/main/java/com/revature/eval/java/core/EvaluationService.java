@@ -854,6 +854,19 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
+		Scanner scnr = new Scanner(string);
+		int firstOperand = scnr.nextInt();
+		int secondOperand = scnr.nextInt();
+		scnr.close();
+		if (string.contains("plus")) {
+			return firstOperand + secondOperand;
+		} else if (string.contains("minus")) {
+			return firstOperand - secondOperand;
+		} else if (string.contains("multiplied")) {
+			return firstOperand * secondOperand;
+		} else if (string.contains("divided")) {
+			return firstOperand / secondOperand;
+		}
 		return 0;
 	}
 
