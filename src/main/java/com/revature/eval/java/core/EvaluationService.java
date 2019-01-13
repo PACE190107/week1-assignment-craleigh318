@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 	
@@ -22,6 +23,7 @@ public class EvaluationService {
 	private static final String NONDIGIT = "\\D";
 	private static final String NONWHITESPACE = "\\S";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
+	private static final String NO_DIGITS_OR_SPACES = ".*[^ 0-9].*";
 	private static final int ISBN_LENGTH = 10;
 	private static final int PHONE_NUMBER_LENGTH = 10;
 	private static final String PIG_LATIN_SOUND = "ay";
@@ -910,6 +912,10 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
+		boolean invalidCharacters = string.matches(NO_DIGITS_OR_SPACES);
+		if (invalidCharacters) {
+			return false;
+		}
 		int luhnSum = luhnSum(string);
 		boolean divisibleByTen = ((luhnSum % 10) == 0);
 		return divisibleByTen;
@@ -917,27 +923,35 @@ public class EvaluationService {
 	
 	private int doubleLuhnDigit(int digit) {
 		int doubledDigit = digit * 2;
-		doubledDigit %= 10;
+		if (doubledDigit > 9) {
+			doubledDigit -= 9;
+		}
 		return doubledDigit;
 	}
 	
 	private int luhnSum(String string) {
-		ArrayList<Integer> adds = new ArrayList<>();
-		String numericString = removeNonNumbers(string);
-		for (int i = 0; i < numericString.length(); ++i) {
-			int digit = charToInt(numericString.charAt(i));
-			boolean evenIndex = ((i % 2) != 0);
-			if (evenIndex) {
-				digit = doubleLuhnDigit(digit);
-			}
-			adds.add(digit);
-		}
-		// Get sum.
+		List<Integer> adds = luhnDigits(string);
 		int sum = 0;
 		for (int i : adds) {
 			sum += i;
 		}
 		return sum;
+	}
+	
+	private List<Integer> luhnDigits(String string) {
+		ArrayList<Integer> adds = new ArrayList<>();
+		String numericString = removeNonNumbers(string);
+		int numericStringLength = numericString.length();
+		int remainder = numericStringLength % 2;
+		for (int i = 0; i < numericStringLength; ++i) {
+			int digit = charToInt(numericString.charAt(i));
+			boolean willDouble = ((i % 2) == remainder);
+			if (willDouble) {
+				digit = doubleLuhnDigit(digit);
+			}
+			adds.add(digit);
+		}
+		return adds;
 	}
 
 	/**
