@@ -464,12 +464,18 @@ public class EvaluationService {
 	}
 	
 	private int[] getDigits(int number) {
-		int numDigits = ((int) Math.floor(Math.log10(number))) + 1;
+		int remainder = number;
+		Stack<Integer> stack = new Stack<>();
+		while (remainder > 0) {
+			int nextDigit = remainder % 10;
+			stack.push(nextDigit);
+			remainder /= 10;
+		}
+		int numDigits = stack.size();
 		int[] digits = new int[numDigits];
-		for (int i = numDigits; i >= 0; --i) {
-			int tenPow = (int) Math.pow(10.0, numDigits);
-			int digit = number % tenPow;
-			digits[i] = digit;
+		for (int i = 0; i < numDigits; ++i) {
+			int nextDigit = stack.pop();
+			digits[i] = nextDigit;
 		}
 		return digits;
 	}
