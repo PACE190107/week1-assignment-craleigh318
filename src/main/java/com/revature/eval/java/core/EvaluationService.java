@@ -18,6 +18,7 @@ public class EvaluationService {
 	private static final String NONDIGIT = "\\D";
 	private static final String NONWHITESPACE = "\\S";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
+	private static final int ISBN_LENGTH = 10;
 	private static final int PHONE_NUMBER_LENGTH = 10;
 	private static final String PIG_LATIN_SOUND = "ay";
 	private static final char US_CODE = '1';
@@ -740,19 +741,27 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
+		String isbn = string.replaceAll("-", "");
 		int sum = 0;
-		char[] stringCA = string.toCharArray();
-		for (int i = 0; i < (ISBN_LENTH - 1); ++i) {
-			char nextChar = stringCA[i];
-			int nextInt = charToInt(nextChar);
-			sum += (nextInt * (ISBN_LENTH - i));
+		for (int i = 0; i < ISBN_LENGTH; ++i) {
+			char nextChar = isbn.charAt(i);
+			int nextInt;
+			boolean lastDigitX = ((i == (ISBN_LENGTH - 1)) && (nextChar == 'X'));
+			if (lastDigitX) {
+				nextInt = 10;
+			} else {
+				nextInt = charToInt(nextChar);
+				boolean zeroThroughNine = ((nextInt >= 0) && (nextInt <= 9));
+				if (!zeroThroughNine) {
+					return false;
+				}
+			}
+			sum += (nextInt * (ISBN_LENGTH - i));
 		}
-		int checksum = charToInt(stringCA[ISBN_LENTH - 1]);
-		boolean valid = (sum == checksum);
+		sum %= (ISBN_LENGTH +1);
+		boolean valid = (sum == 0);
 		return valid;
 	}
-	
-	private int ISBN_LENTH = 10;
 	
 	private int charToInt(char c) {
 		return Character.getNumericValue(c);
