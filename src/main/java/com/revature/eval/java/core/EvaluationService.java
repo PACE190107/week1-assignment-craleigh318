@@ -1,12 +1,20 @@
 package com.revature.eval.java.core;
 
-import java.awt.image.ReplicateScaleFilter;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.*;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
 
 public class EvaluationService {
 	
@@ -27,6 +35,7 @@ public class EvaluationService {
 	private static final int ISBN_LENGTH = 10;
 	private static final int PHONE_NUMBER_LENGTH = 10;
 	private static final String PIG_LATIN_SOUND = "ay";
+	private static final String PUNCTUATION = "[!.?]";
 	private static final char US_CODE = '1';
 	private static final String WHITESPACE = "\\s";
 
@@ -983,9 +992,27 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
+		String cleanedString = removePunctuation(string);
+		int solution = solveSanitizedWordProblem(cleanedString);
+		return solution;
+	}
+	
+	private int solveSanitizedWordProblem(String string) {
+		Integer firstOperand = null;
+		Integer secondOperand = null;
 		Scanner scnr = new Scanner(string);
-		int firstOperand = scnr.nextInt();
-		int secondOperand = scnr.nextInt();
+		while ((secondOperand == null))
+		{
+			if (scnr.hasNextInt()) {
+				if (firstOperand == null) {
+					firstOperand = scnr.nextInt();
+				} else {
+					secondOperand = scnr.nextInt();
+				}
+			} else {
+				scnr.next();
+			}
+		}
 		scnr.close();
 		if (string.contains("plus")) {
 			return firstOperand + secondOperand;
@@ -997,6 +1024,10 @@ public class EvaluationService {
 			return firstOperand / secondOperand;
 		}
 		return 0;
+	}
+	
+	private String removePunctuation(String string) {
+		return string.replaceAll(PUNCTUATION, "");
 	}
 
 	private String removeNonNumbers(String string) {
