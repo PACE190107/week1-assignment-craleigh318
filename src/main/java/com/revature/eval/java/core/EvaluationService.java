@@ -1,6 +1,9 @@
 package com.revature.eval.java.core;
 
 import java.awt.image.ReplicateScaleFilter;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.*;
 import java.util.*;
 
@@ -13,6 +16,7 @@ public class EvaluationService {
 	private static final String CONSONANTS = "[bcdfghjklmnpqrstvwxyz]";
 	private static final String DIGIT = "\\d";
 	private static final int FIRST_PRIME = 2;
+	private static final long GIGASECOND = 1000000000;
 	private static final String NONALPHABETIC = "[^A-z]";
 	private static final String NONALPHANUMERIC = "\\W";
 	private static final String NONDIGIT = "\\D";
@@ -816,11 +820,15 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		Temporal gsDate = given.plus(GIGASECOND, ChronoUnit.SECONDS);
-		return gsDate;
+		LocalDateTime givenDateTime;
+		try {
+			givenDateTime = LocalDateTime.from(given);
+		} catch (DateTimeException e) {
+			givenDateTime = LocalDate.from(given).atStartOfDay();
+		}
+		givenDateTime = givenDateTime.plusSeconds(GIGASECOND);
+		return givenDateTime;
 	}
-	
-	private static final long GIGASECOND = 1000000000;
 
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
