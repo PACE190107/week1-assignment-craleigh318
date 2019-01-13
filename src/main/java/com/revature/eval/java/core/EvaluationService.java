@@ -7,9 +7,13 @@ import java.util.*;
 public class EvaluationService {
 	
 	private static final String ALPHABETIC = "[A-z]";
+	private static final String DIGIT = "[\\d]";
 	private static final int FIRST_PRIME = 2;
 	private static final String NONALPHABETIC = "[^A-z]";
+	private static final String NONDIGIT = "[\\D]";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
+	private static final int PHONE_NUMBER_LENGTH = 10;
+	private static final char US_CODE = '1';
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -230,19 +234,24 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		String localNumber = removeCountryCode(string);
-		//Remove non-digits.
-		localNumber = removeNonNumbers(localNumber);
-		return localNumber;
+		String cleanedNumber = removeNonNumbers(string);
+		cleanedNumber = removeCountryCode(cleanedNumber);
+		checkPhoneNumberValidity(cleanedNumber);
+		return cleanedNumber;
 	}
 	
-	private char usCode = '1';
-	
 	private String removeCountryCode(String phoneNumber) {
-		if (phoneNumber.charAt(0) == usCode) {
+		if (phoneNumber.charAt(0) == US_CODE) {
 			return phoneNumber.substring(1);
 		}
 		return phoneNumber;
+	}
+	
+	private void checkPhoneNumberValidity(String phoneNumber) {
+		int pnLength = phoneNumber.length();
+		if (pnLength != PHONE_NUMBER_LENGTH) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**
@@ -882,6 +891,6 @@ public class EvaluationService {
 	}
 
 	private String removeNonNumbers(String string) {
-		return string.replaceAll("[^\\d]", "");
+		return string.replaceAll(NONDIGIT, "");
 	}
 }
