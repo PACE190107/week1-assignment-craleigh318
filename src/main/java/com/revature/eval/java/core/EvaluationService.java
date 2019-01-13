@@ -7,8 +7,9 @@ import java.util.*;
 public class EvaluationService {
 	
 	private static final String ALPHABETIC = "[A-z]";
-	private static final String NONALPHABETIC = "[^A-z]";
 	private static final int FIRST_PRIME = 2;
+	private static final String NONALPHABETIC = "[^A-z]";
+	private static final int NUM_LETTERS_IN_ALPHABET = 26;
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -147,15 +148,14 @@ public class EvaluationService {
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
 		int score = 0;
-		String stringLC = string.toLowerCase();
-		char[] stringCA = stringLC.toCharArray();
-		for (char c : stringCA) {
+		int stringLength = string.length();
+		for (int i = 0; i < stringLength; ++i) {
+			char c = string.charAt(i);
+			c = Character.toLowerCase(c);
 			score += getScrabbleLetterValue(c);
 		}
 		return score;
 	}
-	
-	private static final int NUM_LETTERS_IN_ALPHABET = 26;
 	
 	private HashMap<Character, Integer> scrabbleLetterValueMap = null;
 	
@@ -169,13 +169,13 @@ public class EvaluationService {
 			scrabbleLetterValueMap = new HashMap<>(NUM_LETTERS_IN_ALPHABET);
 			scrabbleLetterValueMap.put('a', 1);
 			scrabbleLetterValueMap.put('b', 3);
-			scrabbleLetterValueMap.put('c', 1);
+			scrabbleLetterValueMap.put('c', 3);
 			scrabbleLetterValueMap.put('d', 2);
 			scrabbleLetterValueMap.put('e', 1);
 			scrabbleLetterValueMap.put('f', 4);
 			scrabbleLetterValueMap.put('g', 2);
 			scrabbleLetterValueMap.put('h', 4);
-			scrabbleLetterValueMap.put('i', 4);
+			scrabbleLetterValueMap.put('i', 1);
 			scrabbleLetterValueMap.put('j', 8);
 			scrabbleLetterValueMap.put('k', 5);
 			scrabbleLetterValueMap.put('l', 1);
