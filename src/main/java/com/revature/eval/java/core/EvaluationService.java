@@ -596,6 +596,9 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
+		if (i <= 0) {
+			throw new IllegalArgumentException();
+		}
 		ArrayList<Integer> primes = new ArrayList<>(Arrays.asList(FIRST_PRIME));
 		for (int j = (FIRST_PRIME + 1); primes.size() < i; ++j) {
 			boolean divisible = false;
