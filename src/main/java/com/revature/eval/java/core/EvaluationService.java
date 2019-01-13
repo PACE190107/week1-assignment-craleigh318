@@ -510,6 +510,11 @@ public class EvaluationService {
 				prod /= fact;
 			}
 		}
+		int numPrimeFactors = primeFactors.size();
+		boolean lIsPrime = (numPrimeFactors <= 0);
+		if (lIsPrime) {
+			primeFactors.add(l);
+		}
 		return primeFactors;
 	}
 	
