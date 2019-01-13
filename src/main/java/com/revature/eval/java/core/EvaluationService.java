@@ -7,6 +7,7 @@ import java.util.*;
 public class EvaluationService {
 	
 	private static final String ALPHABETIC = "[A-z]";
+	private static final String CONSONANTS = "[bcdfghjklmnpqrstvwxyz]";
 	private static final String DIGIT = "[\\d]";
 	private static final int FIRST_PRIME = 2;
 	private static final String NONALPHABETIC = "[^A-z]";
@@ -14,6 +15,7 @@ public class EvaluationService {
 	private static final String NONWHITESPACE = "\\S";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
 	private static final int PHONE_NUMBER_LENGTH = 10;
+	private static final String PIG_LATIN_SOUND = "ay";
 	private static final char US_CODE = '1';
 	private static final String WHITESPACE = "\\s";
 
@@ -396,33 +398,47 @@ public class EvaluationService {
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
 		String newString = "";
-		String[] splitString = string.split(" ");
+		String[] splitString = string.split(WHITESPACE);
 		for (String s : splitString) {
 			s = moveFirstConsonant(s);
 			s = addAy(s);
-			newString += s;
+			newString += (s + " ");
 		}
+		newString = newString.stripTrailing();
 		return newString;
 	}
 	
 	private String moveFirstConsonant(String word) {
-		String firstLetter = word.substring(0, 0);
-		boolean isConsonant = firstLetter.matches(CONSONANTS);
-		if (isConsonant) {
-			int endIndex = word.length() - 1;
-			String newWord = word.substring(1, endIndex);
-			newWord += firstLetter;
-			return newWord;
+		String firstConsonant = getFirstConsonant(word);
+		int startIndex = firstConsonant.length();
+		int endIndex = word.length();
+		String newWord = word.substring(startIndex, endIndex);
+		newWord += firstConsonant;
+		return newWord;
+	}
+	
+	private String getFirstConsonant(String word) {
+		String firstConsonant = "";
+		int wordLength = word.length();
+		for (int i = 0; i < wordLength; ++i) {
+			char c = word.charAt(i);
+			boolean isConsonantLetter = (CONSONANTS.indexOf(c) >= 0);
+			if (isConsonantLetter) {
+				firstConsonant += c;
+				if (c == 'q') {
+					firstConsonant += 'u';
+					++i;
+				}
+			} else {
+				break;
+			}
 		}
-		return word;
+		return firstConsonant;
 	}
 	
 	private String addAy(String word) {
 		return word + PIG_LATIN_SOUND;
 	}
-	
-	private static final String CONSONANTS = "[bcdfghjklmnpqrstvwxyz]";
-	private static final String PIG_LATIN_SOUND = "ay";
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
