@@ -11,9 +11,11 @@ public class EvaluationService {
 	private static final int FIRST_PRIME = 2;
 	private static final String NONALPHABETIC = "[^A-z]";
 	private static final String NONDIGIT = "[\\D]";
+	private static final String NONWHITESPACE = "\\S";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
 	private static final int PHONE_NUMBER_LENGTH = 10;
 	private static final char US_CODE = '1';
+	private static final String WHITESPACE = "\\s";
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -265,10 +267,14 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		String[] words = string.split(" ");
+		String[] words = string.split(NONALPHABETIC);
 		HashMap<String, Integer> wordCount = new HashMap<>();
-		for (String w : words) {
-			addWordToCount(w, wordCount);
+		for (String word : words) {
+			String cleanedWord = word.replaceAll(NONALPHABETIC, "");
+			int wordLength = cleanedWord.length();
+			if (wordLength > 0) {
+				addWordToCount(cleanedWord, wordCount);
+			}
 		}
 		return wordCount;
 	}
