@@ -6,7 +6,9 @@ import java.util.*;
 
 public class EvaluationService {
 	
-	private final int FIRST_PRIME = 2;
+	private static final String ALPHABETIC = "[A-z]";
+	private static final String NONALPHABETIC = "[^A-z]";
+	private static final int FIRST_PRIME = 2;
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -33,10 +35,19 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		String[] splitPhrase = phrase.split(" ");
 		String acronym = "";
-		for (String word : splitPhrase) {
-			acronym += word.charAt(0);
+		boolean lookingForInitial = true;
+		int phraseLength = phrase.length();
+		for (int i = 0; i < phraseLength; ++i) {
+			char c = phrase.charAt(i);
+			boolean letter = Character.isLetter(c);
+			if (lookingForInitial && letter) {
+				lookingForInitial = false;
+				c = Character.toUpperCase(c);
+				acronym += c;
+			} else if (!lookingForInitial && !letter) {
+				lookingForInitial = true;
+			}
 		}
 		return acronym;
 	}
