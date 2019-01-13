@@ -7,11 +7,15 @@ import java.util.*;
 public class EvaluationService {
 	
 	private static final String ALPHABETIC = "[A-z]";
+	private static final float ALPHABET_MIDDLE_UPPERCASE = ((float)('A' + 'Z') / 2.0f);
+	static final float ALPHABET_MIDDLE_LOWERCASE = ((float)('a' + 'z') / 2.0f);
+	private static final String ALPHANUMERIC = "\\w";
 	private static final String CONSONANTS = "[bcdfghjklmnpqrstvwxyz]";
-	private static final String DIGIT = "[\\d]";
+	private static final String DIGIT = "\\d";
 	private static final int FIRST_PRIME = 2;
 	private static final String NONALPHABETIC = "[^A-z]";
-	private static final String NONDIGIT = "[\\D]";
+	private static final String NONALPHANUMERIC = "\\W";
+	private static final String NONDIGIT = "\\D";
 	private static final String NONWHITESPACE = "\\S";
 	private static final int NUM_LETTERS_IN_ALPHABET = 26;
 	private static final int PHONE_NUMBER_LENGTH = 10;
@@ -643,8 +647,6 @@ public class EvaluationService {
 	 *
 	 */
 	static class AtbashCipher {
-		
-		private static final float ALPHABET_MIDDLE = ((float)'Z' - (float)'A');
 
 		/**
 		 * Question 13
@@ -669,15 +671,46 @@ public class EvaluationService {
 		}
 		
 		private static String code(String string) {
+			String newString = string.replaceAll(NONALPHANUMERIC, "");
+			newString = substitute(newString);
+			newString = spaceText(newString);
+			return newString;
+		}
+		
+		private static String substitute(String string) {
 			String newString = "";
-			char[] stringCA = string.toCharArray();
-			for (char c : stringCA) {
-				float offset = ((float)c - ALPHABET_MIDDLE);
-				offset *= -1;
-				offset += ALPHABET_MIDDLE;
-				char newChar = (char)offset;
-				newString += newChar;
+			int stringLength = string.length();
+			for (int i = 0; i < stringLength; ++i) {
+				char c = string.charAt(i);
+				boolean uppercase = Character.isUpperCase(c);
+				boolean lowercase = Character.isLowerCase(c);
+				if (uppercase || lowercase) {
+					if (uppercase) {
+						c -= 'A';
+						c += 'a';
+					}
+					float offset = ((float)c - ALPHABET_MIDDLE_LOWERCASE);
+					offset *= -1.0f;
+					offset += ALPHABET_MIDDLE_LOWERCASE;
+					c = (char)offset;
+				}
+				newString += c;
 			}
+			return newString;
+		}
+		
+		private static String spaceText(String string) {
+			StringBuilder sb = new StringBuilder(string);
+			int counter = 5;
+			for (int i = 0; i < sb.length(); ++i) {
+				if (counter <= 0) {
+					sb.insert(i, ' ');
+					counter = 5;
+				} else {
+					--counter;
+				}
+			}
+			String newString = sb.toString();
 			return newString;
 		}
 	}
