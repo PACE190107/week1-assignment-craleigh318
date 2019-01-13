@@ -559,12 +559,20 @@ public class EvaluationService {
 			char[] ciphertext = new char[stringLength];
 			for (int i = 0; i < stringLength; ++i) {
 				char c= string.charAt(i);
-				boolean isCapital = (c <= 'Z');
-				char shiftedChar = (char)(c + key);
-				if (isCapital) {
-					shiftedChar %= 'Z';
-				} else {
-					shiftedChar %= 'z';
+				char shiftedChar = c;
+				boolean uppercase = Character.isUpperCase(c);
+				boolean lowercase = Character.isLowerCase(c);
+				if (uppercase || lowercase) {
+					shiftedChar += key;
+					if (uppercase) {
+						shiftedChar -= 'A';
+						shiftedChar %= NUM_LETTERS_IN_ALPHABET;
+						shiftedChar += 'A';
+					} else if (lowercase) {
+						shiftedChar -= 'a';
+						shiftedChar %= NUM_LETTERS_IN_ALPHABET;
+						shiftedChar += 'a';
+					}
 				}
 				ciphertext[i] = shiftedChar;
 			}
