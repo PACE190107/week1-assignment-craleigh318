@@ -656,7 +656,9 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return code(string);
+			String code = code(string);
+			code = spaceText(code);
+			return code;
 		}
 
 		/**
@@ -673,7 +675,6 @@ public class EvaluationService {
 		private static String code(String string) {
 			String newString = string.replaceAll(NONALPHANUMERIC, "");
 			newString = substitute(newString);
-			newString = spaceText(newString);
 			return newString;
 		}
 		
